@@ -1,4 +1,4 @@
-from ReplaceCode_CmFunctions import CmFunctions
+from CmFunctions import *
 
 # --- 경로 설정 -----------------------------------------------------------------------------------------
 
@@ -12,9 +12,11 @@ txt_path = ""
 
 # 찾고 싶은 라인
 target_line = []
+target_line_lowercaseAll = False
 
 # 제외해야 할 조건
 exclusions = []
+exclusions_lowercaseAll = False
 
 # 처리할 파일의 확장자
 extension = ""
@@ -33,12 +35,17 @@ method = "print_lines"
 # 변환해야 할 부분
 part_to_replace = ["", ""]
 
+# sql: 컬럼명, java: 변수명 --> [[var]]
+
 conditions = {
     "path":path
   , "target_line":target_line
+  , "target_line_lowercaseAll":target_line_lowercaseAll
   , "exclusions":exclusions
+  , "exclusions_lowercaseAll":exclusions_lowercaseAll
   , "extension":extension
   , "countTF":countTF
+  , "count":0
   , "method":method
   , "txt_path":txt_path
   , "part_to_replace":part_to_replace
