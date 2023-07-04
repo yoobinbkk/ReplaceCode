@@ -46,11 +46,12 @@ def write_line_with_variable(conditions, line):
 
     return replace_loop(line, before_replace_str1, before_replace_str2, after_replace_str1, after_replace_str2)
 
+# --- 한 줄에 변화 대상이 여러 개 있을 경우 ---
 def replace_loop(line, br_str1, br_str2, ar_str1, ar_str2):
     # variable과 변경 대상 변수화
     before_replace_index1 = line.find(br_str1)
     before_replace_index1_plusLen = before_replace_index1 + len(br_str1)
-    before_replace_index2 = line.find(br_str2, before_replace_index1_plusLen + 1)
+    before_replace_index2 = find_parenthesis(line, br_str1, br_str2, before_replace_index1_plusLen) # 괄호 세고 index 가져오기
     variable = line[before_replace_index1_plusLen:before_replace_index2]
     before_replace_original = line[before_replace_index1:before_replace_index2 + len(br_str2)]
     
@@ -60,6 +61,20 @@ def replace_loop(line, br_str1, br_str2, ar_str1, ar_str2):
         return replace_loop(line, br_str1, br_str2, ar_str1, ar_str2)
     else:
         return line
+    
+    def find_parenthesis(line, br_str1, br_str2, before_replace_index1_plusLen):
+        if br_str1[-1:] == '(' and br_str2[-1:] == ')' and line.count('(') == line.count(')'):
+            return parenthesis_count(line, before_replace_index1_plusLen, before_replace_index1_plusLen)
+        else:
+            return line.find(br_str2, before_replace_index1_plusLen + 1)
+    
+    def parenthesis_count(line, starting_index, end_index):
+        parenthesis_close_index = line.find(')', end_index + 1)
+        working_line = line[starting_index:parenthesis_close_index]
+        if working_line.count('(') == working_line.count(')'):
+            return parenthesis_close_index
+        else:
+            return parenthesis_count(line, starting_index, parenthesis_close_index)
 
 # --- 출력용 -----------------------------------------------------------------------------------------
 
