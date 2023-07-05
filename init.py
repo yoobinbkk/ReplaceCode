@@ -13,6 +13,7 @@ txt_path = ""
 # 찾고 싶은 라인
 target_line = []
 target_line_lowercaseAll = False
+target_line_checkType = "and"
 
 # 제외해야 할 조건
 exclusions = []
@@ -41,6 +42,7 @@ conditions = {
     "path":path
   , "target_line":target_line
   , "target_line_lowercaseAll":target_line_lowercaseAll
+  , "target_line_checkType":target_line_checkType
   , "exclusions":exclusions
   , "exclusions_lowercaseAll":exclusions_lowercaseAll
   , "extension":extension

@@ -4,6 +4,13 @@ import os
 
 # 찾는 라인인지 확인하는 함수
 def check_target(line, conditions):
+    if conditions['target_line_checkType'] == "and":
+        return check_target_and(line, conditions)
+    elif conditions['target_line_checkType'] == "or":
+        return check_target_or(line, conditions)
+
+# and
+def check_target_and(line, conditions):
     if conditions['target_line_lowercaseAll']:
         target_line_lowercaseAll = [i.lower() for i in conditions['target_line']]
         for target in target_line_lowercaseAll:
@@ -14,6 +21,19 @@ def check_target(line, conditions):
             if target not in line:
                 return False
     return True
+
+# or
+def check_target_or(line, conditions):
+    if conditions['target_line_lowercaseAll']:
+        target_line_lowercaseAll = [i.lower() for i in conditions['target_line']]
+        for target in target_line_lowercaseAll:
+            if target in line.lower():
+                return True
+    else:
+        for target in conditions['target_line']:
+            if target in line:
+                return True
+    return False
 
 # 제외되어야 하는 라인인지 확인하는 함수
 def check_exclusions(line, conditions):
@@ -57,7 +77,7 @@ def replace_loop(line, br_str1, br_str2, ar_str1, ar_str2):
     
     # 라인 replace 처리
     line = line.replace(before_replace_original, ar_str1 + variable + ar_str2)
-    if br_str1 in line:
+    if br_str1 in line and br_str2 in line:
         return replace_loop(line, br_str1, br_str2, ar_str1, ar_str2)
     else:
         return line
@@ -113,7 +133,6 @@ def print_lines(lines, file_path, conditions):
                 
                 # 라인의 수와 라인 출력
                 print(f"\t{i+1}\t{line.strip()}")
-    
     return conditions['count']
 
 # 라인 적는 함수
@@ -137,7 +156,7 @@ def write_lines(lines, file_path, conditions):
                 conditions = write_count(conditions, fw)
 
                 # 라인의 수와 라인 적기
-                fw.write("\t[" + str(i+1) + "]" + line.strip() + "\n")
+                fw.write(" \t[" + str(i+1) + "]" + line.strip() + "\n")
     
     if pathNameTF == False:
         fw.write("\n")
@@ -230,6 +249,31 @@ def process_dir(conditions):
             conditions['path'] = current_path
             process_dir(current_path)
 
+# 중간 작업
+def mark_inbetween(conditions):
+    if conditions["method"] == "print_lines" or conditions["method"] == "replace_lines":
+        print("\n")
+        print("###################################################")
+        print("path : " + conditions["path"])
+        print("target_line : [" + ", ".join(conditions["target_line"]) + "]")
+        print("exclusions : [" + ", ".join(conditions["exclusions"]) + "]")
+        if conditions["method"] == "replace_lines":
+            print("part_to_replace : " + conditions["part_to_replace"][0] + " --> " + conditions["part_to_replace"][1])
+        print("###################################################")
+        print("\n")
+    elif conditions["method"] == "write_lines":
+        fw = open(conditions["txt_path"], 'a', encoding='utf-8')
+        fw.write("\n")
+        fw.write("###################################################\n")
+        fw.write("path : " + conditions["path"] + "\n")
+        fw.write("target_line : [" + ", ".join(conditions["target_line"]) + "]\n")
+        fw.write("exclusions : [" + ", ".join(conditions["exclusions"]) + "]\n")
+        fw.write("###################################################\n")
+        fw.write("\n")
+        fw.close
+
 # 작업 실행
 def init(conditions):
-    process_dir(conditions)
+    for condition in conditions:
+        mark_inbetween(condition)
+        process_dir(condition)
