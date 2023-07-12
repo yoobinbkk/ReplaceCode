@@ -86,19 +86,19 @@ def replace_part(conditions, line, br_str1, br_str2, ar_str1, ar_str2):
     else:
         return line
     
-    def find_parenthesis(line, br_str1, br_str2, before_replace_index1_plusLen):
-        if br_str1[-1:] == '(' and br_str2[-1:] == ')' and line.count('(') == line.count(')'):
-            return parenthesis_count(line, before_replace_index1_plusLen, before_replace_index1_plusLen)
-        else:
-            return line.find(br_str2, before_replace_index1_plusLen + 1)
-    
-    def parenthesis_count(line, starting_index, end_index):
-        parenthesis_close_index = line.find(')', end_index + 1)
-        working_line = line[starting_index:parenthesis_close_index]
-        if working_line.count('(') == working_line.count(')'):
-            return parenthesis_close_index
-        else:
-            return parenthesis_count(line, starting_index, parenthesis_close_index)
+def find_parenthesis(line, br_str1, br_str2, before_replace_index1_plusLen):
+    if br_str1[-1:] == '(' and br_str2[-1:] == ')' and line.count('(') == line.count(')'):
+        return parenthesis_count(line, before_replace_index1_plusLen, before_replace_index1_plusLen)
+    else:
+        return line.find(br_str2, before_replace_index1_plusLen + 1)
+
+def parenthesis_count(line, starting_index, end_index):
+    parenthesis_close_index = line.find(')', end_index + 1)
+    working_line = line[starting_index:parenthesis_close_index]
+    if working_line.count('(') == working_line.count(')'):
+        return parenthesis_close_index
+    else:
+        return parenthesis_count(line, starting_index, parenthesis_close_index)
 
 # --- 출력용 -----------------------------------------------------------------------------------------
 
