@@ -38,19 +38,22 @@ part_to_replace = ["", ""]
 
 # sql: 컬럼명, java: 변수명 --> [[var]]
 
+replace_loopTF = False
+
 conditions = {
     "path":path
+  , "txt_path":txt_path
+  , "extension":extension
   , "target_line":target_line
   , "target_line_lowercaseAll":target_line_lowercaseAll
   , "target_line_checkType":target_line_checkType
   , "exclusions":exclusions
   , "exclusions_lowercaseAll":exclusions_lowercaseAll
-  , "extension":extension
   , "countTF":countTF
   , "count":0
   , "method":method
-  , "txt_path":txt_path
   , "part_to_replace":part_to_replace
+  , "replace_loopTF":replace_loopTF
 }
 
 # ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

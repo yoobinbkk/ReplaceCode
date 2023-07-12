@@ -1,4 +1,4 @@
-from CmFunctions import *
+from CmFunctions_custom import *
 
 # 조건들
 path = ""
@@ -7,18 +7,19 @@ extension = ""
 
 conditions = [
   {
-      "path":                       path
-    , "txt_path":                   txt_path
-    , "target_line":                []
-    , "target_line_lowercaseAll":   False
-    , "target_line_checkType":      "and"
-    , "exclusions":                 []
-    , "exclusions_lowercaseAll":    False
-    , "extension":                  extension
-    , "countTF":                    True
-    , "count":                      0
-    , "method":                     ""
-    , "part_to_replace":            []
+      "path":                         path
+    , "txt_path":                     txt_path
+    , "extension":                    extension
+    , "target_line":                  []
+      , "target_line_lowercaseAll":   False
+      , "target_line_checkType":      "and"
+    , "exclusions":                   []
+      , "exclusions_lowercaseAll":    False
+    , "method":                       ""
+    , "countTF":                      True
+    , "count":                        0
+    , "part_to_replace":              []
+      , "replace_loopTF":             False
   }
 ]
 
